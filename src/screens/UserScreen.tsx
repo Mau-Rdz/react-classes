@@ -3,6 +3,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { users, User } from "../resources/User.ts";
 import useForm from "../hooks/useForm.tsx";
+import { NavLink } from 'react-router-dom';
 
 function UserScreen() {
   const { id } = useParams();
@@ -18,9 +19,14 @@ function UserScreen() {
     );
   }
 
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
   return (
     <div className="container mt-5">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Name</label>
           <input
@@ -66,9 +72,7 @@ function UserScreen() {
         </div>
       </form>
       <div className="mb-3">
-        <button type="submit" className="btn btn-primary">
-          Guardar
-        </button>
+        <NavLink to='/users' className="btn btn-primary">Guardar</NavLink>
       </div>
     </div>
   );
