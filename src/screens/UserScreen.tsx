@@ -19,45 +19,45 @@ function UserScreen() {
   }
 
   return (
-    <div class="container mt-5">
+    <div className="container mt-5">
       <form>
-        <div class="mb-3">
-          <label class="form-label">Name</label>
+        <div className="mb-3">
+          <label className="form-label">Name</label>
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             id="name"
             name="name"
             value={name}
             onChange={handleChange}
           />
         </div>
-        <div class="mb-3">
-          <label class="form-label">Role</label>
+        <div className="mb-3">
+          <label className="form-label">Role</label>
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             id="role"
             name="role"
             value={role}
             onChange={handleChange}
           />
         </div>
-        <div class="mb-3">
-          <label class="form-label">Address</label>
+        <div className="mb-3">
+          <label className="form-label">Address</label>
           <textarea
-            class="form-control"
+            className="form-control"
             id="address"
             name="address"
             rows="5"
             onChange={handleChange}
           ></textarea>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Salary</label>
+        <div className="mb-3">
+          <label className="form-label">Salary</label>
           <input
             type="number"
-            class="form-control"
+            className="form-control"
             id="salary"
             name="salary"
             value={salary}
@@ -65,8 +65,8 @@ function UserScreen() {
           />
         </div>
       </form>
-      <div class="mb-3">
-        <button type="submit" class="btn btn-primary">
+      <div className="mb-3">
+        <button type="submit" className="btn btn-primary">
           Guardar
         </button>
       </div>
