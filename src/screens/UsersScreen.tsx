@@ -1,6 +1,5 @@
 //@ts-nocheck
-import React from "react";
-import Button from "@mui/material/Button";
+import React, { useEffect, useState } from "react";
 import { Container } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -11,11 +10,23 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { users } from "../resources/User.ts";
+import { deleteUsers, getUsers } from "../resources/User.ts";
 import Grid from "@mui/material/Grid";
 import { NavLink } from "react-router-dom";
 
+const SetupUsers = async (setUsers) => {
+  const userDocs = await getUsers()
+  setUsers(userDocs);
+}
+
 function UsersScreen() {
+  const [users, setUsers] = useState([])
+  useEffect(() => {
+    SetupUsers(setUsers)
+  }, [])
+  const handleDelete = (id: string) => {
+    deleteUsers(id)
+  }
   return (
     <Container maxWidth="xl">
       <Grid container spacing={2} marginTop={5}>
@@ -24,6 +35,9 @@ function UsersScreen() {
           <Grid item lg={6} md={8} sm={10} xs={12}>
             <Typography variant="h4">Users List</Typography>
             <Divider color="black" />
+            <NavLink to={`/user/`} className="btn btn-primary mx-2">
+              Add user
+            </NavLink>
           </Grid>
         </Grid>
         <Grid container marginTop={2}>
@@ -42,7 +56,10 @@ function UsersScreen() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {users.map(({ id, name, address, role, salary }) => (
+                  {users.map((user: QueryDocumentSnapshot<DocumentData>) => {
+                    const { name, address, role, salary } = user.data();
+                    const { id } = user;
+                    return (
                     <TableRow
                       key={id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -61,9 +78,16 @@ function UsersScreen() {
                         >
                           Edit
                         </NavLink>
+                        <button
+                          onClick={() => {handleDelete(id)}}
+                          className="btn btn-danger mx-2"
+                        >
+                          Delete
+                        </button>
                       </TableCell>
                     </TableRow>
-                  ))}
+                    )
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>

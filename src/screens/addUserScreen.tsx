@@ -1,15 +1,7 @@
 //@ts-nocheck
 import React, {useState, useEffect} from "react";
-import { useParams } from "react-router-dom";
-import { getUser, User, UserDoc, updateUsers} from "../resources/User.ts";
+import { User, UserDoc, addUsers} from "../resources/User.ts";
 import useForm from "../hooks/useForm.tsx";
-import { NavLink } from 'react-router-dom';
-
-
-const SetupUsers = async (setUser, id) => {
-  const userDocs = await getUser(id)
-  setUser(userDocs);
-}
 
 const emptyUser: UserDoc = {
   name: '',
@@ -17,27 +9,15 @@ const emptyUser: UserDoc = {
   salary: '',
   role: '' 
 }
-function UserScreen() {
-  const { id } = useParams();
-  const [user, setUser] = useState<UserDoc>(emptyUser)
-  useEffect(() => {
-    SetupUsers(setUser, id)
-  }, [])
+function AddUserScreen() {
   const [data, handleChange] = useForm<User>(emptyUser);
   const { name, role, address, salary } = data;
-  if (!user) {
-    return (
-      <div className="container">
-        <h1>USER NOT FOUND</h1>
-      </div>
-    );
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
   }
   const handleUpdate = () => {
-    updateUsers(id, data);
+    addUsers(data);
   }
 
   return (
@@ -89,10 +69,10 @@ function UserScreen() {
       </form>
       <div className="mb-3">
         {/* <NavLink to='/users' className="btn btn-primary">Guardar</NavLink> */}
-        <button onClick={handleUpdate} className="btn btn-primary">Guardar</button>
+        <button onClick={handleUpdate} className="btn btn-primary">Agregar</button>
       </div>
     </div>
   );
 }
 
-export default UserScreen;
+export default AddUserScreen;

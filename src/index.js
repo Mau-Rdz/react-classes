@@ -11,6 +11,7 @@ import About from './screens/About2.tsx';
 import TermsAndConditions from './screens/TermsAndConditions.tsx';
 import UsersScreen from './screens/UsersScreen.tsx';
 import UserScreen from './screens/UserScreen.tsx';
+import AddUserScreen from './screens/addUserScreen.tsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,6 +24,7 @@ root.render(
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/users" element={<UsersScreen />} />
         <Route path="/users/:id" element={<UserScreen />} />
+        <Route path="/user/" element={<AddUserScreen />} />
       </Routes>
     </Router>
   </React.StrictMode>
