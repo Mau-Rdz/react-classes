@@ -1,7 +1,9 @@
 //@ts-nocheck
-import React, {useState, useEffect} from "react";
+import React from "react";
 import { User, UserDoc, addUsers} from "../resources/User.ts";
 import useForm from "../hooks/useForm.tsx";
+import { NavLink } from 'react-router-dom';
+
 
 const emptyUser: UserDoc = {
   name: '',
@@ -52,6 +54,7 @@ function AddUserScreen() {
             id="address"
             name="address"
             rows="5"
+            value={address}
             onChange={handleChange}
           ></textarea>
         </div>
@@ -68,8 +71,7 @@ function AddUserScreen() {
         </div>
       </form>
       <div className="mb-3">
-        {/* <NavLink to='/users' className="btn btn-primary">Guardar</NavLink> */}
-        <button onClick={handleUpdate} className="btn btn-primary">Agregar</button>
+        <NavLink to='/users' onClick={handleUpdate} className="btn btn-primary">Agregar</NavLink>
       </div>
     </div>
   );

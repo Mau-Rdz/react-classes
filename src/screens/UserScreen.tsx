@@ -5,39 +5,44 @@ import { getUser, User, UserDoc, updateUsers} from "../resources/User.ts";
 import useForm from "../hooks/useForm.tsx";
 import { NavLink } from 'react-router-dom';
 
-
-const SetupUsers = async (setUser, id) => {
-  const userDocs = await getUser(id)
-  setUser(userDocs);
-}
-
 const emptyUser: UserDoc = {
   name: '',
   address: '',
   salary: '',
   role: '' 
 }
+
 function UserScreen() {
   const { id } = useParams();
-  const [user, setUser] = useState<UserDoc>(emptyUser)
+  const [user, setUser] = useState<UserDoc>(emptyUser)  
+
+  const [data, handleChange, setData ] = useForm<User>(emptyUser);
+  const { name, role, address, salary } = data;
+
+  const SetupUsers = async () => {
+    const userDocs = await getUser(id)
+    setUser(userDocs);
+    setData(userDocs);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
+  const handleUpdate = () => {
+    updateUsers(id, data);
+  }
+
   useEffect(() => {
     SetupUsers(setUser, id)
   }, [])
-  const [data, handleChange] = useForm<User>(emptyUser);
-  const { name, role, address, salary } = data;
+
   if (!user) {
     return (
       <div className="container">
         <h1>USER NOT FOUND</h1>
       </div>
     );
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  }
-  const handleUpdate = () => {
-    updateUsers(id, data);
   }
 
   return (
@@ -72,6 +77,7 @@ function UserScreen() {
             id="address"
             name="address"
             rows="5"
+            value={address}
             onChange={handleChange}
           ></textarea>
         </div>
@@ -88,8 +94,7 @@ function UserScreen() {
         </div>
       </form>
       <div className="mb-3">
-        {/* <NavLink to='/users' className="btn btn-primary">Guardar</NavLink> */}
-        <button onClick={handleUpdate} className="btn btn-primary">Guardar</button>
+        <NavLink to='/users' onClick={handleUpdate} className="btn btn-primary">Guardar</NavLink>
       </div>
     </div>
   );

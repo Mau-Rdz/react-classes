@@ -10,25 +10,48 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { deleteUsers, getUsers } from "../resources/User.ts";
+import { deleteUsers, getUsers, emptyUser } from "../resources/User.ts";
 import Grid from "@mui/material/Grid";
 import { NavLink } from "react-router-dom";
-
-const SetupUsers = async (setUsers) => {
-  const userDocs = await getUsers()
-  setUsers(userDocs);
-}
+import Modal from "../components/Modal.tsx"
 
 function UsersScreen() {
   const [users, setUsers] = useState([])
-  useEffect(() => {
-    SetupUsers(setUsers)
-  }, [])
-  const handleDelete = (id: string) => {
-    deleteUsers(id)
+  const [open, setOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(emptyUser);
+  const [acceptDelete, setAcceptDelete] = useState(false);
+  
+  const SetupUsers = async () => {
+    const userDocs = await getUsers()
+    setUsers(userDocs);
   }
+  
+  const handleDelete = (id: string) => {
+    setOpen(true);
+    const SelectUser = users.find((user)=> user.id === id)
+    setSelectedUser(SelectUser);
+  }
+  
+  useEffect(() => {
+    SetupUsers()
+  }, [])
+  useEffect(() => {
+    if(acceptDelete){
+      deleteUsers(selectedUser.id);
+      SetupUsers();
+      setAcceptDelete(false);
+    }
+
+  }, [acceptDelete])
+
   return (
     <Container maxWidth="xl">
+      <Modal
+      open={open}
+      setOpen={setOpen}
+      selectedUser={selectedUser}
+      setAcceptDelete={setAcceptDelete}
+      />
       <Grid container spacing={2} marginTop={5}>
         <Grid container>
           <Grid item lg={3} md={2} sm={1} xs={0}></Grid>

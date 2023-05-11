@@ -1,5 +1,4 @@
 //@ts-nocheck
-import { useRef } from 'react'
 import { db } from '../firebase.ts'
 import { doc, getDoc, getDocs, collection, addDoc, updateDoc, deleteDoc } from 'firebase/firestore'
 
@@ -16,6 +15,13 @@ export interface UserDoc {
     role: string,
     address: string,
     salary: number,
+}
+
+export const emptyUser: UserDoc = {
+    name: '',
+    address: '',
+    salary: '',
+    role: '' 
 }
 
 const users = collection(db, "users")
